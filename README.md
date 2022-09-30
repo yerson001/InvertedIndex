@@ -3,11 +3,13 @@
 ## Eliminar o agregar workers
 
 ### 1. Eliminar los hosts
+~~~
  sudo nvim /etc/hosts
-
+~~~
 ### 2. Eliminar los workers
+~~~
 sudo nvim /usr/local/hadoop/etc/hadoop/workers
-
+~~~
 
 ## Get sources
 
