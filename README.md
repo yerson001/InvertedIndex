@@ -1,5 +1,4 @@
 # InvertedIndex
-
 ## Ejecutar INVERINDEX un nodo
 ## Eliminar o agregar workers
 
@@ -7,13 +6,22 @@
  sudo nvim /etc/hosts
 
 ### 2. Eliminar los workers
-/usr/local/hadoop/etc/hadoop/workers
+sudo nvim /usr/local/hadoop/etc/hadoop/workers
+
+
+## Get sources
+
+git clone https://github.com/yerson001/InvertedIndex.git
+
+cd InverIndex
+
+mkdir build
 
 ## Iniciar Hadoop
 
 su - hadoop
 
-start-dfs-sh
+start-dfs.sh
 
 jps
 
@@ -25,37 +33,37 @@ http://master:9870
 
 start-yarn.sh
 
- yarn node -list
+yarn node -list
 
 ## Hadoop Web UI(replace the hostname for you hadoop master host name)
 
 http://master:8088/cluster
 
-## RUN
+## RUN importante
 
 export HADOOP_CLASSPATH=$(hadoop classpath)
 echo $HADOOP_CLASSPATH
 
 ## hadoop mkdir
 
-hadoop fs -mkdir /InverIndex
-hadoop fs -mkdir /InverIndex/Input
+hadoop fs -mkdir /pagerank
+hadoop fs -mkdir /pagerank/Input
 ### Revisa en UI web si se crearon los directorios
 
 ## upload data 
 
-hadoop fs -put '/home/master/Desktop/InverIndex/Input_data/file01' /InverIndex/Input
-hadoop fs -put '/home/master/Desktop/InverIndex/Input_data/file02' /InverIndex/Input
+hadoop fs -put '/home/master/Desktop/InverIndex/Input_data/file0001' /InverIndex/Input
+hadoop fs -put '/home/master/Desktop/InverIndex/Input_data/file0002' /InverIndex/Input
 
 ## Compilar JAVA
 
 cd /home/master/Desktop/InverIndex
-javac InvertedIndex.java -cp $(hadoop classpath) -d '/home/master/Desktop/InverIndex/tutorial_classes/' 
-jar -cvf firstTutorial.jar -C tutorial_classes/ .
+javac InvertedIndex.java -cp $(hadoop classpath) -d '/home/master/Desktop/InverIndex/build/' 
+jar -cvf app.jar -C build/ .
 
 ## Send .jar hadoop
 
-hadoop jar '/home/master/Desktop/InverIndex/firstTutorial.jar' InvertedIndex /InverIndex/Input /InverIndex/Output
+hadoop jar '/home/master/Desktop/InverIndex/app.jar' InvertedIndex /pagerank/Input /pagerank/Output
 
 
 ## ver los resultados
@@ -65,3 +73,6 @@ hadoop dfs -cat /InverIndex/input/file1.txt
 
 ## Eliminar mkdir output
 hadoop fs -rmdir /inverindex/output
+
+hdfs dfs -rm -r /pagerank/Output
+
